@@ -15,7 +15,9 @@ RUN apt-get update && \
 		protobuf-compiler \
 		qtbase5-dev \
 		redis \
-		rsync
+		rsync \
+		sudo \
+		tmux
 
 # Install cpp_redis library
 RUN git clone --recursive https://github.com/cpp-redis/cpp_redis.git /tmp/cpp_redis && \
@@ -31,7 +33,9 @@ RUN sed -i 's/^bind.*/bind 0.0.0.0/g' /etc/redis/redis.conf
 
 # Add developer user
 RUN useradd --create-home developer && \
-	echo developer:developer | chpasswd 
+	echo developer:developer | chpasswd && \
+	chsh -s /bin/bash developer && \
+	gpasswd -a developer sudo
 
 # Entry point
 COPY entry-point.sh /entry-point.sh
