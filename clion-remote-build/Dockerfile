@@ -8,6 +8,7 @@ RUN apt-get update && \
 		gdb \
 		git \
 		iproute2 \
+		lcov \
 		libdbus-1-dev \
 		libprotobuf-dev \
 		openssh-server \
