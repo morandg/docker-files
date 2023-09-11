@@ -1,16 +1,24 @@
-FROM debian:bullseye
+FROM debian:12.1
 
 RUN apt-get update && \
 	apt-get upgrade --yes && \
 	apt-get install --yes \
 		build-essential \
+		ca-certificates \
 		cmake \
 		gdb \
 		git \
 		iproute2 \
 		lcov \
 		libdbus-1-dev \
+		libgtest-dev \
 		libprotobuf-dev \
+		libspdlog-dev \
+		libpaho-mqtt-dev \
+		libpaho-mqttpp-dev \
+		libsqlite3-dev \
+		libssl-dev \
+		libtclap-dev \
 		openssh-server \
 		pkg-config \
 		protobuf-compiler \
@@ -18,19 +26,12 @@ RUN apt-get update && \
 		redis \
 		rsync \
 		sudo \
+		sqlite3 \
 		tmux
 
-# Install cpp_redis library
-RUN git clone --recursive https://github.com/cpp-redis/cpp_redis.git /tmp/cpp_redis && \
-	cd /tmp/cpp_redis && \
-	mkdir build && \
-	cd build && \
-	cmake .. && \
-	make -j$(nproc) && \
-	make install
-
-# Configure redis
-RUN sed -i 's/^bind.*/bind 0.0.0.0/g' /etc/redis/redis.conf
+# Install spdlog_setup
+COPY install-spdlog-setup.sh /tmp
+RUN /tmp/install-spdlog-setup.sh && rm /tmp/install-spdlog-setup.sh
 
 # Add developer user
 RUN useradd --create-home developer && \
