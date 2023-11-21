@@ -11,6 +11,7 @@ RUN apt-get update && \
 		iproute2 \
 		lcov \
 		libdbus-1-dev \
+		libmodbus-dev \
 		libgtest-dev \
 		libprotobuf-dev \
 		libspdlog-dev \
